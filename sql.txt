@@ -1,0 +1,77 @@
+برای محاسبه کل فروش شرکت از کویری زیر استفاده می شود :
+select sum (quantity * unitprice) from saletable 
+که حاصل برابر 35950 ست .
+
+
+
+برای محاسبه تعداد متمایز مشتریانی که از این شرکت خرید داشته اند دستور زیر را اجرا میکنیم :
+select count( distinct customer) from saletable
+که حاصل برابر 9 است .
+
+
+
+
+برای محاسبه  شرکت از هر محصول چه مقدار فروخته است دستور زیر را اجرا میکنیم :
+select sum( quantity * unitprice ) from saletable
+group by Product
+که حاصل برابر 
+3900
+4950
+4800
+11550
+8800
+1950 
+است
+
+
+
+
+
+برای محاسبه  مشتریانی نمایش داده شوند که حداقل یک فاکتور بیش
+از مبلغ 1500 دارند و به ازای هر کدام از این مشتریان، مبلغ خرید، تعداد فاکتور و
+تعداد آیتم خریداری شده نمایش داده شود دستور زیر اجرا می شود :
+select customer,sum(Quantity * UnitPrice) as mablaqekharid,count(OrderID) as tedadfactor,
+sum (Quantity) as tedaditem from saletable
+group by customer HAVING sum(Quantity * UnitPrice) > 1500
+که حاصل برابراست با
+customer	mablaqekharid	tedadfactor	tedaditem
+c1        	5150			5	17
+c2        	9150			11	36
+c3        	4150			4	14
+c4        	5100			5	17
+c5        	3300			5	18
+c6        	4050			4	17
+c8        	3500			3	14 
+
+
+
+
+
+برای محاسبه مبلغ سود کلی و درصد سود کافی است دستور زیر اجرا شود
+select sum(quantity * unitprice * profitratio ) as mablaqesood,
+sum(quantity * unitprice * profitratio )/sum(quantity * unitprice)  as darsadesood  from saletable 
+inner join saleprofits on saletable.Product = saleprofits.product
+که حاصل برابراست با
+mablaqesood	darsadesood
+529750		14 
+
+
+
+
+
+برای محاسبه تعداد افرادی که در یک روز خرید میکنند باید دستور زیر را اجرا کرد :
+select count(distinct Customer) as countperday from saletable 
+group by date
+که حاصل برابر است با
+countperday
+5
+5
+3 
+که نتیجتا 13 میشود.
+
+
+
+
+
+
+
